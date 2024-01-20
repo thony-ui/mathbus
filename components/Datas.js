@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Data() {
+function Datas() {
   const [data, setData] = useState([]);
   const busStopNames = [
     "OTH",
@@ -97,8 +97,7 @@ function Data() {
             data[busStopName]?.ShuttleServiceResult.shuttles.map(
               (shuttle, shuttleIndex) => (
                 <div key={shuttleIndex} className="flex gap-3 flex-row">
-                    
-                  <p>{shuttle.name}</p>
+                  <p className="">{shuttle.name}</p>
                   <p>{shuttle.arrivalTime}</p>
                   <p>{shuttle.nextArrivalTime}</p>
                 </div>
@@ -110,4 +109,4 @@ function Data() {
   );
 }
 
-export default Data;
+export default Datas;

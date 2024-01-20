@@ -1,9 +1,9 @@
-import Data from "@/components/data";
+import Datas from "../components/Datas"
 
 export default function Page() {
   return (
     <div>
-        <Data />
+        <Datas />
     </div>
   );
 }
