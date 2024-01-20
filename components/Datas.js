@@ -8,25 +8,56 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import Image from "next/image";
-import chart from "../images/Chart.png"
+import chart from "../images/Chart.png";
+
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
+function ChildModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    alert("Just be better sigh... 😔");
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen} variant = "outlined">Complain!</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 300 }}>
+          <div className="flex flex-col items-center gap-3">
+        <textarea className="border rounded-md w-[200px] h-[150px] border-gray-500"/>
+          
+          <Button onClick={handleClose} variant = "outlined">Submit</Button>
+          </div>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
 function Datas() {
-  
   const [msg, curMsg] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -179,35 +210,53 @@ function Datas() {
   return (
     <div>
       <div className="flex gap-3 justify-center">
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={busStopNames}
-        sx={{
-          width: 300,
-          
-        }}
-        renderInput={(params) => <TextField {...params} label="Destination" />}
-        inputValue={msg}
-        onInputChange={(event, newInputValue) => {
-          curMsg(newInputValue);
-        }}
-        
-      />
-         <Button variant="outlined" onClick={handleOpen} sx = {{cursor:"pointer"}}>Please Help Me</Button>
-         <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-        <Typography id="modal-modal-description" sx={{ mb: 2, fontSize: "40px", textAlign:"center", fontWeight:"bold"}}>
-            Even Primary school kids can do better than you LAH
-          </Typography>
-          <Image src = {chart} alt = 'loser' />
-        </Box>
-      </Modal>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={busStopNames}
+          sx={{
+            width: 300,
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Destination" />
+          )}
+          inputValue={msg}
+          onInputChange={(event, newInputValue) => {
+            curMsg(newInputValue);
+          }}
+        />
+        <Button
+          variant="outlined"
+          onClick={handleOpen}
+          sx={{ cursor: "pointer" }}
+        >
+          Please Help Me
+        </Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="modal-modal-description"
+              sx={{
+                mb: 2,
+                fontSize: "40px",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Even Primary school kids can do better than you LAH
+            </Typography>
+            <Image src={chart} alt="loser" />
+            <div className="flex flex-col items-center mt-[10px]">
+            
+            <ChildModal />
+            </div>
+          </Box>
+        </Modal>
       </div>
       <Grid
         container
