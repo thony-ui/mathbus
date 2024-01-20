@@ -13,7 +13,6 @@ import Box from "@mui/material/Box";
 import Image from "next/image";
 import chart from "../images/Chart.png";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -38,7 +37,9 @@ function ChildModal() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen} variant = "outlined">Complain!</Button>
+      <Button onClick={handleOpen} variant="outlined">
+        Complain!
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -47,9 +48,11 @@ function ChildModal() {
       >
         <Box sx={{ ...style, width: 300 }}>
           <div className="flex flex-col items-center gap-3">
-        <textarea className="border rounded-md w-[200px] h-[150px] border-gray-500"/>
-          
-          <Button onClick={handleClose} variant = "outlined">Submit</Button>
+            <textarea className="border rounded-md w-[200px] h-[150px] border-gray-500" />
+
+            <Button onClick={handleClose} variant="outlined">
+              Submit
+            </Button>
           </div>
         </Box>
       </Modal>
@@ -112,7 +115,15 @@ function Datas() {
     rand2 = Math.abs(rand2);
     return `${rand1}x ${symbol} ${rand2} = ${result}`;
   }
-
+  function generate(n) {
+    if (isNaN(n)) {
+      return "Service Unavailable";
+    }
+    const b = Math.floor(Math.random() * 201) - 100;
+    const c = n * n * -1 - n * b;
+    return `x^2 + ${b}x + ${c} = 0`;
+  }
+  const a = [generate, generateProblem];
   const [data, setData] = useState([]);
   const fullName = {
     "Oei Tiong Ham Building": "OTH",
@@ -252,8 +263,7 @@ function Datas() {
             </Typography>
             <Image src={chart} alt="loser" />
             <div className="flex flex-col items-center mt-[10px]">
-            
-            <ChildModal />
+              <ChildModal />
             </div>
           </Box>
         </Modal>
@@ -283,10 +293,14 @@ function Datas() {
                         <p className="w-[100px]">{shuttle.name}</p>
                         <p className="w-[200px]">
                           {" "}
-                          {generateProblem(shuttle.arrivalTime)}
+                          {a[Math.floor(Math.random() * a.length)](
+                            shuttle.arrivalTime
+                          )}
                         </p>
                         <p className="w-[200px]">
-                          {generateProblem(shuttle.nextArrivalTime)}
+                          {a[Math.floor(Math.random() * a.length)](
+                            shuttle.nextArrivalTime
+                          )}
                         </p>
                       </div>
                     )
