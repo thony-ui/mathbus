@@ -1,50 +1,111 @@
 import React, { useEffect, useState } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Unstable_Grid2";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 function Datas() {
-  const [data, setData] = useState([]);
-  const busStopNames = [
-    "OTH",
-    "BG-MRT",
-    "KR-MRT",
-    "LT27",
-    "UHALL",
-    "UHC-OPP",
-    "UTOWN",
-    "RAFFLES",
-    "KV",
-    "MUSEUM",
-    "YIH",
-    "CLB",
-    "LT13",
-    "AS5",
-    "BIZ2",
-    "PGP",
-    "CG",
-    "COM3",
-    "TCOMS-OPP",
-    "UHC",
-    "UHALL-OPP",
-    "S17",
-    "KR-MRT-OPP",
-    "PGPR",
+  const [msg, curMsg] = useState("");
+  const [busStopNames, setBusStopNames] = useState([
+    "Oei Tiong Ham Building",
+    "Botanic Gardens MRT",
+    "Kent Ridge MRT",
+    "LT 27",
+    "University Hall",
+    "Opp University Health Centre",
+    "University Town",
+    "Raffles Hall",
+    "Kent Vale",
+    "Museum",
+    "Yusof Ishak House",
+    "Central Library",
+    "LT 13",
+    "AS 5",
+    "BIZ 2",
+    "Prince George's Park",
+    "College Green",
+    "COM 3",
+    "Opp TCOMS",
+    "University Health Centre",
+    "Opp University Hall",
+    "S 17",
+    "Opp Kent Ridge MRT",
+    "Prince George's Park Foyer",
     "TCOMS",
-    "HSSML-OPP",
-    "NUSS-OPP",
-    "LT13-OPP",
-    "IT",
-    "YIH-OPP",
-    "KRB",
-    "SDE3-OPP",
-    "JP-SCH-16151",
+    "Opp Hon Sui Sen Memorial Library",
+    "Opp NUSS",
+    "Ventus",
+    "Information Technology",
+    "Opp Yusof Ishak House",
+    "Kent Ridge Bus Terminal",
+    "Opp SDE 3",
+    "The Japanese Primary School",
     "EA",
-    "SDE3",
-  ];
+    "SDE 3",
+  ]);
+  const [filteredBusStopNames, setFilteredBusStopNames] = useState([]);
+  function generateProblem(n) {
+    if (isNaN(n)) {
+      return "Service Unavailable";
+    }
+    const rand1 = Math.floor(Math.random() * 100 + 1) + 1;
+    let rand2 =
+      Math.floor(Math.random() * 100 + 1) - Math.floor(Math.random() * 100 + 1);
+    const result = rand1 * n + rand2;
+    const symbol = rand2 < 0 ? "-" : "+";
+    rand2 = Math.abs(rand2);
+    return `${rand1}x ${symbol} ${rand2} = ${result}`;
+  }
+
+  const [data, setData] = useState([]);
+  const fullName = {
+    "Oei Tiong Ham Building": "OTH",
+    "Botanic Gardens MRT": "BG-MRT",
+    "Kent Ridge MRT": "KR-MRT",
+    "LT 27": "LT27",
+    "University Hall": "UHALL",
+    "Opp University Health Centre": "UHC-OPP",
+    "University Town": "UTOWN",
+    "Raffles Hall": "RAFFLES",
+    "Kent Vale": "KV",
+    Museum: "MUSEUM",
+    "Yusof Ishak House": "YIH",
+    "Central Library": "CLB",
+    "LT 13": "LT13",
+    "AS 5": "AS5",
+    "BIZ 2": "BIZ2",
+    "Prince George's Park": "PGP",
+    "College Green": "CG",
+    "COM 3": "COM3",
+    "Opp TCOMS": "TCOMS-OPP",
+    "University Health Centre": "UHC",
+    "Opp University Hall": "UHALL-OPP",
+    "S 17": "S17",
+    "Opp Kent Ridge MRT": "KR-MRT-OPP",
+    "Prince George's Park Foyer": "PGPR",
+    TCOMS: "TCOMS",
+    "Opp Hon Sui Sen Memorial Library": "HSSML-OPP",
+    "Opp NUSS": "NUSS-OPP",
+    Ventus: "LT13-OPP",
+    "Information Technology": "IT",
+    "Opp Yusof Ishak House": "YIH-OPP",
+    "Kent Ridge Bus Terminal": "KRB",
+    "Opp SDE 3": "SDE3-OPP",
+    "The Japanese Primary School": "JP-SCH-16151",
+    EA: "EA",
+    "SDE 3": "SDE3",
+  };
 
   const fetchData = async () => {
     try {
       const fetchDataPromises = busStopNames.map(async (busstopname) => {
         const response = await fetch(
-          `https://nnextbus.nus.edu.sg/ShuttleService?busstopname=${busstopname}`,
+          `https://nnextbus.nus.edu.sg/ShuttleService?busstopname=${fullName[busstopname]}`,
           {
             method: "GET",
             headers: {
@@ -88,23 +149,72 @@ function Datas() {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    const rem = busStopNames.filter((x) =>
+      x.toUpperCase().includes(msg.toUpperCase())
+    );
+    setFilteredBusStopNames(rem);
+  }, [msg, busStopNames]);
+
   return (
-    <div className="flex flex-col gap-[20px]">
-      {busStopNames.map((busStopName, busStopIndex) => (
-        <div key={busStopIndex} className="flex flex-col gap-[20px]">
-          <h1 className="mb-[10px] font-bold">{busStopName}</h1>
-          {data &&
-            data[busStopName]?.ShuttleServiceResult.shuttles.map(
-              (shuttle, shuttleIndex) => (
-                <div key={shuttleIndex} className="flex gap-3 flex-row">
-                  <p className="">{shuttle.name}</p>
-                  <p>{shuttle.arrivalTime}</p>
-                  <p>{shuttle.nextArrivalTime}</p>
-                </div>
-              )
-            )}
-        </div>
-      ))}
+    <div>
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={busStopNames}
+        sx={{
+          width: 300,
+          margin: "auto", // Center the Autocomplete component
+          textAlign: "center",
+          "& .MuiInputBase-root": {
+            display: "flex",
+            justifyContent: "center", // Center text within the input field
+          },
+        }}
+        renderInput={(params) => <TextField {...params} label="Destination" />}
+        inputValue={msg}
+        onInputChange={(event, newInputValue) => {
+          curMsg(newInputValue);
+        }}
+      />
+      <Grid
+        container
+        spacing={{ xs: 1 }}
+        alignItems="center" // Align items vertically in the center
+        justifyContent="center"
+        columns={1} // Set the number of columns to 1 for all screen sizes
+        sx={{ width: "full" }}
+      >
+        {filteredBusStopNames?.map((name, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card sx={{ maxWidth: "500px", mx: "auto" }}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {name}
+                </Typography>
+                {data &&
+                  data[name]?.ShuttleServiceResult.shuttles.map(
+                    (shuttle, shuttleIndex) => (
+                      <div
+                        key={shuttleIndex}
+                        className="flex gap-3 flex-row justify-between"
+                      >
+                        <p className="w-[100px]">{shuttle.name}</p>
+                        <p className="w-[200px]">
+                          {" "}
+                          {generateProblem(shuttle.arrivalTime)}
+                        </p>
+                        <p className="w-[200px]">
+                          {generateProblem(shuttle.nextArrivalTime)}
+                        </p>
+                      </div>
+                    )
+                  )}
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }
