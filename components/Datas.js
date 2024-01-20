@@ -174,7 +174,7 @@ function Datas() {
       x.toUpperCase().includes(msg.toUpperCase())
     );
     setFilteredBusStopNames(rem);
-  }, [msg, busStopNames]);
+  }, [msg]);
 
   return (
     <div>
