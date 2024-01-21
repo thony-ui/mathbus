@@ -12,6 +12,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import chart from "../images/Chart.png";
+import { Router, useRouter } from "next/router";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,7 @@ function ChildModal() {
   };
   const handleClose = () => {
     alert("Just be better sigh... 😔");
+    setIsHovered(false);
     setOpen(false);
   };
 
@@ -50,7 +52,11 @@ function ChildModal() {
           <div className="flex flex-col items-center gap-3">
             <textarea className="border rounded-md w-[200px] h-[150px] border-gray-500" />
 
-            <Button onClick={handleClose} variant="outlined">
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              sx={{ cursor: "pointer" }}
+            >
               Submit
             </Button>
           </div>
@@ -61,6 +67,20 @@ function ChildModal() {
 }
 
 function Datas() {
+  const router = useRouter()
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleWordClick = (word) => {
+    // Replace this with the action you want to perform when a word is clicked
+    if (word == "better") {
+      alert("You found the word!")
+      setIsHovered(false);
+    }
+    setOpen(false)
+    console.log(`Clicked on: ${word}`);
+  };
+
+  const text = "Even Primary school kids can do better than you LAH";
   const [msg, curMsg] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -103,17 +123,17 @@ function Datas() {
     "SDE 3",
   ]);
   const [filteredBusStopNames, setFilteredBusStopNames] = useState([]);
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleHover = () => {
     if (isHovered == false) {
-      alert("You must remember the equation!");
+      alert(
+        "You must remember the equation 😈 Find the secret word to get back the details :)"
+      );
     }
     setIsHovered(true);
   };
 
   const handleTransitionEnd = () => {
-   
     if (isHovered) {
       setIsHovered(false);
     }
@@ -138,18 +158,17 @@ function Datas() {
     const b = Math.floor(Math.random() * 201) - 100;
     const c = n * n * -1 - n * b;
 
-    if (b < 0) {
-      return `x² - ${Math.abs(b)}x + ${c} = 0`;
-    }
-    if (c < 0) {
-      return `x² + ${b}x - ${Math.abs(c)} = 0`;
-    }
     if (b < 0 && c < 0) {
       return `x² - ${Math.abs(b)}x - ${Math.abs(c)} = 0`;
+    } else if (b < 0) {
+      return `x² - ${Math.abs(b)}x + ${c} = 0`;
+    } else if (c < 0) {
+      return `x² + ${b}x - ${Math.abs(c)} = 0`;
     }
 
     return `x² + ${b}x + ${c} = 0`;
   }
+
   const a = [generate, generateProblem];
   const [data, setData] = useState([]);
   const fullName = {
@@ -286,9 +305,19 @@ function Datas() {
                 fontWeight: "bold",
               }}
             >
-              Even Primary school kids can do better than you LAH
+              {text.split(" ").map((word, index) => (
+                <span
+                  key={index}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleWordClick(word)}
+                >
+                  {word}{" "}
+                </span>
+              ))}
             </Typography>
-            <Image src={chart} alt="loser" />
+
+            <Image src={chart} alt="loser" className="z-[-1]" />
+
             <div className="flex flex-col items-center mt-[10px]">
               <ChildModal />
             </div>
@@ -319,7 +348,9 @@ function Datas() {
                       >
                         <p className="w-[100px]">{shuttle.name}</p>
                         <p
-                          className={`w-[200px] cursor-pointer ${isHovered ? 'text-white' : ''}`}
+                          className={`w-[200px] cursor-pointer ${
+                            isHovered ? "text-white" : ""
+                          }`}
                           onMouseEnter={handleHover}
                           onTransitionEnd={handleTransitionEnd}
                         >
@@ -329,7 +360,9 @@ function Datas() {
                           )}
                         </p>
                         <p
-                          className={`w-[200px] cursor-pointer ${isHovered ? 'text-white' : ''}`}
+                          className={`w-[200px] cursor-pointer ${
+                            isHovered ? "text-white" : ""
+                          }`}
                           onMouseEnter={handleHover}
                           onTransitionEnd={handleTransitionEnd}
                         >
