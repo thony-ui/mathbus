@@ -75,8 +75,8 @@ function Datas() {
     if (word == "better") {
       alert("You found the word!")
       setIsHovered(false);
+      setOpen(false)
     }
-    setOpen(false)
     console.log(`Clicked on: ${word}`);
   };
 
