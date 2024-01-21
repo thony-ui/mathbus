@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes wavy {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.animate-wavy {
+  animation: wavy 2s infinite;
+}

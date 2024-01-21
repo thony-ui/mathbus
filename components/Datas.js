@@ -119,9 +119,21 @@ function Datas() {
     if (isNaN(n)) {
       return "Service Unavailable";
     }
+  
     const b = Math.floor(Math.random() * 201) - 100;
     const c = n * n * -1 - n * b;
-    return `x^2 + ${b}x + ${c} = 0`;
+
+    if (b < 0) {
+      return `x² - ${Math.abs(b)}x + ${c} = 0`;
+    }
+    if (c < 0) {
+      return `x² + ${b}x - ${Math.abs(c)} = 0`;
+    }
+    if (b < 0 && c < 0) {
+      return `x² - ${Math.abs(b)}x - ${Math.abs(c)} = 0`;
+    }
+  
+    return `x² + ${b}x + ${c} = 0`;
   }
   const a = [generate, generateProblem];
   const [data, setData] = useState([]);
