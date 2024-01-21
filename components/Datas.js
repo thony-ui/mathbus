@@ -103,6 +103,21 @@ function Datas() {
     "SDE 3",
   ]);
   const [filteredBusStopNames, setFilteredBusStopNames] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    if (isHovered == false) {
+      alert("You must remember the equation!");
+    }
+    setIsHovered(true);
+  };
+
+  const handleTransitionEnd = () => {
+   
+    if (isHovered) {
+      setIsHovered(false);
+    }
+  };
   function generateProblem(n) {
     if (isNaN(n)) {
       return "Service Unavailable";
@@ -119,7 +134,7 @@ function Datas() {
     if (isNaN(n)) {
       return "Service Unavailable";
     }
-  
+
     const b = Math.floor(Math.random() * 201) - 100;
     const c = n * n * -1 - n * b;
 
@@ -132,7 +147,7 @@ function Datas() {
     if (b < 0 && c < 0) {
       return `x² - ${Math.abs(b)}x - ${Math.abs(c)} = 0`;
     }
-  
+
     return `x² + ${b}x + ${c} = 0`;
   }
   const a = [generate, generateProblem];
@@ -300,16 +315,24 @@ function Datas() {
                     (shuttle, shuttleIndex) => (
                       <div
                         key={shuttleIndex}
-                        className="flex gap-3 flex-row justify-between"
+                        className="flex gap-3 flex-row justify-between cursor-pointer"
                       >
                         <p className="w-[100px]">{shuttle.name}</p>
-                        <p className="w-[200px]">
+                        <p
+                          className={`w-[200px] cursor-pointer ${isHovered ? 'text-white' : ''}`}
+                          onMouseEnter={handleHover}
+                          onTransitionEnd={handleTransitionEnd}
+                        >
                           {" "}
                           {a[Math.floor(Math.random() * a.length)](
                             shuttle.arrivalTime
                           )}
                         </p>
-                        <p className="w-[200px]">
+                        <p
+                          className={`w-[200px] cursor-pointer ${isHovered ? 'text-white' : ''}`}
+                          onMouseEnter={handleHover}
+                          onTransitionEnd={handleTransitionEnd}
+                        >
                           {a[Math.floor(Math.random() * a.length)](
                             shuttle.nextArrivalTime
                           )}
