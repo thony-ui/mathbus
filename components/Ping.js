@@ -20,6 +20,7 @@ const Ping = ({ id }) => {
       };
   
       // Attach the event listener
+      handleScroll()
       window.addEventListener('scroll', handleScroll);
   
       return () => {
