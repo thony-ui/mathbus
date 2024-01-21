@@ -33,7 +33,7 @@ function ChildModal() {
   };
   const handleClose = () => {
     alert("Just be better sigh... 😔");
-    setIsHovered(false);
+    
     setOpen(false);
   };
 
